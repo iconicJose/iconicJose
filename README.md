@@ -1,25 +1,23 @@
-# Jose
+<p align="center">
+  <img src="./assets/dark-profile-banner.svg" alt="Jose animated profile banner" width="100%" />
+</p>
 
-Building simple, useful projects with a clean eye for design.
+<br />
 
-Currently focused on:
+<p align="center">
+  Building clean web experiences, creative tools, and small business systems.
+</p>
 
-- Web projects
-- Creative tools
-- Small business ideas
-- Making things easier to use
+<p align="center">
+  <a href="https://github.com/iconicJose/PhotoSite">PhotoSite</a>
+  &nbsp;/&nbsp;
+  <a href="https://github.com/iconicJose/tio-ricky-candy-shop">tio-ricky-candy-shop</a>
+</p>
 
-Projects:
+<br />
 
-- [PhotoSite](https://github.com/iconicJose/PhotoSite)
-- [tio-ricky-candy-shop](https://github.com/iconicJose/tio-ricky-candy-shop)
-
-Links:
-
-- GitHub: [@iconicJose](https://github.com/iconicJose)
-- Portfolio: [iconicjose.github.io/PhotoSite](https://iconicjose.github.io/PhotoSite)
-- TikTok: [@ban_jose](https://www.tiktok.com/@ban_jose)
-- Snapchat: [iconic-jose](https://www.snapchat.com/add/iconic-jose)
-- Instagram: [@josewho](https://www.instagram.com/josewho)
-- YouTube: [@GoOutSometime](https://www.youtube.com/@GoOutSometime)
-- Spotify: [pollo_man](https://open.spotify.com/user/pollo_man)
+```txt
+focus    web projects, design, automation
+style    minimal, fast, useful
+status   building
+```
