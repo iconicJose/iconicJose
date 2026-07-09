@@ -16,7 +16,8 @@ HEIGHT = 250
 SCALE = 2
 FRAMES = 180
 FRAME_MS = 50
-CONNECT_DISTANCE = 132
+CONNECT_DISTANCE = 56
+MIN_SEPARATION = 58
 PARTICLE_RADIUS = 4
 MARGIN = 14
 
@@ -55,46 +56,100 @@ def text_size(draw: ImageDraw.ImageDraw, text: str, font_obj: ImageFont.ImageFon
 
 
 def make_particles() -> list[dict[str, object]]:
-    random.seed(17)
+    random.seed(31)
     particles: list[dict[str, object]] = []
-    for i in range(18):
+    for i in range(30):
         angle = random.uniform(0, math.tau)
-        speed = random.uniform(0.55, 1.15)
+        speed = random.uniform(0.72, 1.42)
+        particle_rng = random.Random(900 + i * 37)
+        for _ in range(120):
+            x = random.uniform(MARGIN, WIDTH - MARGIN)
+            y = random.uniform(MARGIN, HEIGHT - MARGIN)
+            if all(math.hypot(x - float(p["x"]), y - float(p["y"])) > 36 for p in particles):
+                break
         particles.append(
             {
-                "x": random.uniform(MARGIN, WIDTH - MARGIN),
-                "y": random.uniform(MARGIN, HEIGHT - MARGIN),
+                "x": x,
+                "y": y,
                 "vx": math.cos(angle) * speed,
                 "vy": math.sin(angle) * speed,
                 "color": COLORS[i % len(COLORS)],
                 "r": random.uniform(3.0, 4.8),
+                "angle": angle,
+                "speed": speed,
+                "turn": random.uniform(-0.075, 0.075),
+                "phase": random.uniform(0, math.tau),
+                "phase2": random.uniform(0, math.tau),
+                "rng": particle_rng,
             }
         )
     return particles
 
 
-def step(particles: list[dict[str, object]]) -> None:
-    for p in particles:
-        x = float(p["x"]) + float(p["vx"])
-        y = float(p["y"]) + float(p["vy"])
+def step(particles: list[dict[str, object]], frame: int) -> None:
+    repel = [(0.0, 0.0) for _ in particles]
+
+    for i, a in enumerate(particles):
+        for j, b in enumerate(particles[i + 1 :], start=i + 1):
+            dx = float(a["x"]) - float(b["x"])
+            dy = float(a["y"]) - float(b["y"])
+            distance = max(math.hypot(dx, dy), 0.001)
+            if distance < MIN_SEPARATION:
+                force = ((MIN_SEPARATION - distance) / MIN_SEPARATION) * 0.18
+                nx = dx / distance
+                ny = dy / distance
+                ax, ay = repel[i]
+                bx, by = repel[j]
+                repel[i] = (ax + nx * force, ay + ny * force)
+                repel[j] = (bx - nx * force, by - ny * force)
+
+    for i, p in enumerate(particles):
+        rng = p["rng"]
+        assert isinstance(rng, random.Random)
+
+        angle = float(p["angle"])
+        speed = float(p["speed"])
+        turn = float(p["turn"])
+        phase = float(p["phase"])
+        phase2 = float(p["phase2"])
+
+        angle += (
+            turn
+            + math.sin(frame * 0.049 + phase) * 0.035
+            + math.cos(frame * 0.031 + phase2) * 0.024
+            + rng.uniform(-0.034, 0.034)
+        )
+        speed += math.sin(frame * 0.037 + phase2) * 0.01 + rng.uniform(-0.018, 0.018)
+        speed = min(max(speed, 0.58), 1.72)
+
+        rx, ry = repel[i]
+        vx = math.cos(angle) * speed + rx
+        vy = math.sin(angle) * speed + ry
+
+        x = float(p["x"]) + vx
+        y = float(p["y"]) + vy
         r = float(p["r"])
 
         if x < MARGIN + r:
             x = MARGIN + r
-            p["vx"] = abs(float(p["vx"]))
+            angle = math.pi - angle + rng.uniform(-0.22, 0.22)
         elif x > WIDTH - MARGIN - r:
             x = WIDTH - MARGIN - r
-            p["vx"] = -abs(float(p["vx"]))
+            angle = math.pi - angle + rng.uniform(-0.22, 0.22)
 
         if y < MARGIN + r:
             y = MARGIN + r
-            p["vy"] = abs(float(p["vy"]))
+            angle = -angle + rng.uniform(-0.22, 0.22)
         elif y > HEIGHT - MARGIN - r:
             y = HEIGHT - MARGIN - r
-            p["vy"] = -abs(float(p["vy"]))
+            angle = -angle + rng.uniform(-0.22, 0.22)
 
         p["x"] = x
         p["y"] = y
+        p["angle"] = angle
+        p["speed"] = speed
+        p["vx"] = math.cos(angle) * speed
+        p["vy"] = math.sin(angle) * speed
 
 
 def draw_frame(particles: list[dict[str, object]]) -> Image.Image:
@@ -117,7 +172,7 @@ def draw_frame(particles: list[dict[str, object]]) -> Image.Image:
             dy = float(a["y"]) - float(b["y"])
             distance = math.hypot(dx, dy) / SCALE
             if distance <= CONNECT_DISTANCE:
-                alpha = int(118 * (1 - distance / CONNECT_DISTANCE))
+                alpha = int(82 * (1 - distance / CONNECT_DISTANCE))
                 draw.line(
                     (a["x"], a["y"], b["x"], b["y"]),
                     fill=(136, 144, 158, alpha),
@@ -160,9 +215,9 @@ def main() -> None:
     ASSETS.mkdir(exist_ok=True)
     particles = make_particles()
     frames = []
-    for _ in range(FRAMES):
+    for frame in range(FRAMES):
         frames.append(draw_frame(particles))
-        step(particles)
+        step(particles, frame)
 
     frames[0].save(
         OUT,
