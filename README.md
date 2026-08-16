@@ -1,3 +1,13 @@
-<p align="center">
-  <img src="./assets/iconic-jose-particle-banner.gif" alt="Iconic Jose" width="100%" />
-</p>
+```
+   ██ ▄████▄ ▄█████ ██████   carpe all the diems
+   ██ ██  ██ ▀▀▀▄▄▄ ██▄▄     -------------------
+████▀ ▀████▀ █████▀ ██▄▄▄▄   Age: 22
+                             Languages: TypeScript, Python, C#
+                             Focus: coding, Minecraft, game dev, photography
+                             Status: building random stuff, some of it works
+
+                             socials
+                             -------
+                             Instagram: @_IconicJose
+                             Snapchat: Iconic-jose
+```
