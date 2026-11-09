@@ -10,9 +10,9 @@ An in-progress desktop photo editor with library organization, adjustment contro
 
 ![Photo editing application showing image comparison and editing controls](images/photo-editor.png)
 
-### Music and podcast player
+### [Music and podcast player](https://github.com/iconicJose/music-player-project)
 
-An in-progress mobile-focused player with playlists, library management, podcast browsing, playback controls, and offline downloads. The project has a web frontend and a separate backend; playback and offline reopening have been tested on an iPhone, with further device testing still needed.
+An in-progress mobile-focused player with playlists, library management, podcast browsing, playback controls, and offline downloads. The project has a web frontend and a separate backend; playback and offline reopening have been tested on an iPhone, with further device testing still needed. The linked repository shares the playlist editing model and tests as a code sample.
 
 <img src="images/music-player.png" alt="Music player showing playback controls" width="300">
 
