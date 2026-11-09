@@ -23,6 +23,6 @@ Designed and refined 3D environments, including terrain, asset placement, access
 ### Other projects
 
 - [Media library application](https://github.com/iconicJose/MediaServer-Published) — A Windows application for organizing and playing a personal media library.
-- [Lighting control](https://github.com/iconicJose/light-control) — A PC lighting control application.
+- [Lighting control](https://github.com/iconicJose/light-control) — A Windows tray application for adjusting supported displays' brightness.
 
 [LinkedIn](https://www.linkedin.com/in/jose-calderon-504b65304/)
